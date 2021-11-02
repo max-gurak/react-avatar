@@ -1,18 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Avatar from '../src/avatar.jsx'
+import Dropzone from 'react-dropzone';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props)
-    const src = SOURCE_PATH + '/einshtein.jpg'
+    // const src = SOURCE_PATH + '/einshtein.jpg'
     this.state = {
       preview: null,
       defaultPreview: null,
-      src
+      src: '',
     }
     this.onCrop = this.onCrop.bind(this)
+    this.onDrop = this.onDrop.bind(this)
     this.onCropDefault = this.onCropDefault.bind(this)
     this.onClose = this.onClose.bind(this)
     this.onCloseDefault = this.onCloseDefault.bind(this)
@@ -21,6 +23,20 @@ class App extends React.Component {
 
   onCropDefault(preview) {
     this.setState({defaultPreview: preview})
+  }
+
+  onDrop(dropped) {
+    const file = dropped[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.setState({ src: reader.result })
+    };
   }
 
   onCrop(preview) {
@@ -61,13 +77,20 @@ class App extends React.Component {
         <div className="row">
           <div className="col-2"/>
           <div className="col-5">
-            <Avatar
-              width={390}
-              height={295}
-              exportSize={390}
-              onCrop={this.onCropDefault}
-              onClose={this.onCloseDefault}
-            />
+            <Dropzone onDrop={this.onDrop}>
+              {({ getRootProps }) => (
+                <div {...getRootProps()}>
+                  <Avatar
+                    width={390}
+                    height={295}
+                    exportSize={390}
+                    onCrop={this.onCropDefault}
+                    onClose={this.onCloseDefault}
+                    src={this.state.src}
+                  />
+                </div>
+              )}
+            </Dropzone>
           </div>
           <div className="col-2">
             <h5>Preview</h5>
@@ -75,34 +98,34 @@ class App extends React.Component {
           </div>
           <div className="col-3"/>
         </div>
-        <div className="row" style={{marginTop: '45px'}}>
-          <div className="col-2"/>
-          <div className="col-8">
-            <h4>With provided <code>src</code> property</h4>
-          </div>
-          <div className="col-2"/>
-        </div>
-        <div className="row">
-          <div className="col-2"/>
-          <div className="col-5">
-            <Avatar
-              width={390}
-              height={295}
-              cropRadius={50}
-              onCrop={this.onCrop}
-              onClose={this.onClose}
-              src={this.state.src}
-            />
-            <div  style={{paddingTop: 20}}>
-              <button onClick={this.onLoadNewImage} type="button" className="btn btn-primary">Load another image</button>
-            </div>
-          </div>
-          <div className="col-2">
-            <h5>Preview</h5>
-            <img alt="" style={{width: '150px', height: '150px'}} src={this.state.preview}/>
-          </div>
-          <div className="col-3"/>
-        </div>
+        {/*<div className="row" style={{marginTop: '45px'}}>*/}
+        {/*  <div className="col-2"/>*/}
+        {/*  <div className="col-8">*/}
+        {/*    <h4>With provided <code>src</code> property</h4>*/}
+        {/*  </div>*/}
+        {/*  <div className="col-2"/>*/}
+        {/*</div>*/}
+        {/*<div className="row">*/}
+        {/*  <div className="col-2"/>*/}
+        {/*  <div className="col-5">*/}
+        {/*    <Avatar*/}
+        {/*      width={390}*/}
+        {/*      height={295}*/}
+        {/*      cropRadius={50}*/}
+        {/*      onCrop={this.onCrop}*/}
+        {/*      onClose={this.onClose}*/}
+        {/*      src={this.state.src}*/}
+        {/*    />*/}
+        {/*    <div  style={{paddingTop: 20}}>*/}
+        {/*      <button onClick={this.onLoadNewImage} type="button" className="btn btn-primary">Load another image</button>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*  <div className="col-2">*/}
+        {/*    <h5>Preview</h5>*/}
+        {/*    <img alt="" style={{width: '150px', height: '150px'}} src={this.state.preview}/>*/}
+        {/*  </div>*/}
+        {/*  <div className="col-3"/>*/}
+        {/*</div>*/}
         <div className="row" style={{backgroundColor: '#b3aeae', marginTop: '45px'}}>
           <div className="col-2"/>
           <div className="col-8" style={{margin: '25px 0'}}>

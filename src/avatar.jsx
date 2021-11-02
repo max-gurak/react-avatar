@@ -185,11 +185,11 @@ class Avatar extends React.Component {
     if (prevProps.src !== this.props.src) {
       if (!this.image) {
         const image = new Image();
+        const showLoader = !(this.props.src || this.props.img);
 
         image.crossOrigin = 'Anonymous';
         image.src = this.props.src;
-
-        this.setState({ image }, () => {
+        this.setState({ image, showLoader }, () => {
           if (this.image.complete) return this.init();
           this.image.onload = () => {
             this.onImageLoadCallback(this.image);

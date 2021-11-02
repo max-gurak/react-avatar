@@ -24,12 +24,12 @@ export interface Props {
    * The height of the editor (image will fit to this height)
    */
   height: number;
-  
+
   /**
    * The desired width of the image, can not be used together with imageHeight
    */
   imageWidth?: number;
-  
+
   /**
    * The desired height of the image, can not be used together with imageWidth
    */
@@ -114,10 +114,10 @@ export interface Props {
   exportQuality?: number;
 
   /**
-   * Label text
+   * Label
    * Default: Choose a file
    */
-  label?: string;
+  label?: React.ReactNode;
 
   /**
    * The style object for preview label
@@ -138,7 +138,7 @@ export interface Props {
    * Invoked when user drag&drop event stop and return croped image in base64 sting
    */
   onCrop?: (data: string) => void;
-  
+
   /**
    * Invoked when user upload file with internal file loader
    */

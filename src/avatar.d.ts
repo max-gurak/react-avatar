@@ -66,6 +66,11 @@ export interface Props {
   backgroundColor?: string;
 
   /**
+   * Close icon.
+   */
+  closeIcon?: React.ReactNode;
+
+  /**
    * The close button color
    * Default: white
    */
